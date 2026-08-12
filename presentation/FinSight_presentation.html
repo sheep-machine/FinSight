@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<title>FinSight — 多Agent金融风控协同系统</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   DESIGN SYSTEM — Premium Academic
+   ============================================ */
+:root {
+  --navy: #0F1B2D;
+  --navy-light: #1E2D47;
+  --gold: #BFA46F;
+  --gold-light: #D4C4A0;
+  --bronze: #8B7355;
+  --ivory: #FAFAF5;
+  --cream: #F5F0E6;
+  --white: #FFFFFF;
+  --text: #1A1A1A;
+  --muted: #6B6B6B;
+  --light-muted: #9A9A9A;
+  --border: #E0DACE;
+  --border-dark: #C9C0AE;
+  --red-accent: #A0392B;
+  --green-accent: #2D6A4F;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #2A2A2A;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* ============================================
+   SLIDE CONTAINER
+   ============================================ */
+.deck {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide {
+  width: 1280px;
+  height: 720px;
+  background: var(--ivory);
+  position: relative;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+}
+.slide.active { display: flex; }
+
+/* ============================================
+   COMMON ELEMENTS
+   ============================================ */
+.slide-num {
+  position: absolute;
+  bottom: 28px;
+  right: 48px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  color: var(--light-muted);
+  letter-spacing: 2px;
+}
+.slide-footer {
+  position: absolute;
+  bottom: 28px;
+  left: 48px;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: var(--light-muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.slide-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 32px;
+  color: var(--navy);
+  line-height: 1.2;
+}
+.slide-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.gold-rule {
+  width: 48px;
+  height: 2px;
+  background: var(--gold);
+  margin: 16px 0;
+}
+.thin-rule {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Content area padding */
+.content {
+  padding: 56px 64px 64px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   P1 — COVER
+   ============================================ */
+.cover {
+  background: var(--navy);
+  color: var(--white);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.cover-frame {
+  border: 1px solid rgba(191,164,111,0.3);
+  padding: 80px 100px;
+  position: relative;
+}
+.cover-frame::before,
+.cover-frame::after {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 2px solid var(--gold);
+}
+.cover-frame::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+.cover-frame::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+.cover-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.cover-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 52px;
+  line-height: 1.15;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.cover-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--gold-light);
+  margin-bottom: 40px;
+}
+.cover-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 2px;
+  line-height: 2;
+}
+.cover-line {
+  width: 80px;
+  height: 1px;
+  background: var(--gold);
+  margin: 0 auto 32px;
+}
+
+/* ============================================
+   P2 — PROBLEM
+   ============================================ */
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  flex: 1;
+  margin-top: 32px;
+}
+.problem-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.problem-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 26px;
+  line-height: 1.4;
+  color: var(--navy);
+  margin-bottom: 24px;
+}
+.problem-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.problem-right {
+  background: var(--navy);
+  color: var(--white);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.problem-right h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  color: var(--gold);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.problem-list {
+  list-style: none;
+}
+.problem-list li {
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.75);
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 12px;
+}
+.problem-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+}
+
+/* Policy Bar (P2) */
+.policy-bar {
+  margin-top: 20px;
+  padding: 14px 20px;
+  background: var(--cream);
+  border-left: 3px solid var(--gold);
+  display: flex;
+  gap: 28px;
+  flex-shrink: 0;
+}
+.policy-item { flex: 1; }
+.policy-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.policy-name {
+  font-size: 10px;
+  color: var(--navy);
+  font-weight: 600;
+  margin-bottom: 3px;
+  line-height: 1.4;
+}
+.policy-quote-text {
+  font-size: 10.5px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.policy-quote-text strong {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+/* ============================================
+   P3 — SOLUTION OVERVIEW
+   ============================================ */
+.solution-hero {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  line-height: 1.35;
+  color: var(--navy);
+  margin: 28px 0 36px;
+  max-width: 900px;
+}
+.solution-hero em {
+  color: var(--gold);
+  font-style: italic;
+}
+.solution-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: auto;
+  margin-bottom: 20px;
+}
+.sol-card {
+  border: 1px solid var(--border);
+  padding: 24px 20px;
+  background: var(--white);
+}
+.sol-card-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  color: var(--gold);
+  font-weight: 600;
+}
+.sol-card-label {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+.sol-card-desc {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+/* ============================================
+   P4 — AGENTTEAMS ARCHITECTURE
+   ============================================ */
+.arch-container {
+  display: flex;
+  flex: 1;
+  margin-top: 28px;
+  gap: 32px;
+}
+.arch-left {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.arch-manager {
+  background: var(--navy);
+  color: var(--white);
+  width: 240px;
+  padding: 20px 24px;
+  text-align: center;
+  border: 1px solid var(--gold);
+}
+.arch-manager .role {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  color: var(--gold);
+}
+.arch-manager .desc {
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 4px;
+}
+.arch-connector {
+  width: 1px;
+  height: 32px;
+  background: var(--border-dark);
+}
+.arch-workers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  max-width: 560px;
+}
+.arch-worker {
+  border: 1px solid var(--border);
+  background: var(--white);
+  padding: 16px 18px;
+  text-align: center;
+}
+.arch-worker .role {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  color: var(--navy);
+  font-weight: 600;
+}
+.arch-worker .skills {
+  font-size: 10px;
+  color: var(--gold);
+  margin-top: 6px;
+  letter-spacing: 0.5px;
+}
+.arch-worker .desc {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+.arch-right {
+  flex: 0.8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+.arch-feature {
+  border-left: 2px solid var(--gold);
+  padding-left: 16px;
+}
+.arch-feature h5 {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.arch-feature p {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ============================================
+   P5 — 8-STEP LOOP
+   ============================================ */
+.loop-container {
+  display: flex;
+  flex: 1;
+  margin-top: 24px;
+  gap: 20px;
+}
+.loop-steps {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.loop-step {
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  background: var(--white);
+  position: relative;
+}
+.loop-step-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  color: var(--gold);
+  font-weight: 600;
+  position: absolute;
+  top: 10px;
+  right: 14px;
+}
+.loop-step h5 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+  padding-right: 28px;
+}
+.loop-step p {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.loop-side {
+  flex: 0.35;
+  background: var(--navy);
+  color: var(--white);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.loop-side h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+.loop-side p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 12px;
+}
+
+/* ============================================
+   P6 — SKILLS
+   ============================================ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  flex: 1;
+  margin-top: 24px;
+}
+.skill-card {
+  border: 1px solid var(--border);
+  background: var(--white);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.skill-card.featured {
+  border-color: var(--gold);
+  border-width: 2px;
+}
+.skill-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.skill-card.featured .skill-name {
+  color: var(--gold);
+}
+.skill-purpose {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 8px;
+  flex: 1;
+}
+.skill-io {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--bronze);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+.skill-tag {
+  font-size: 9px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+/* ============================================
+   P7 — META-CALIBRATE
+   ============================================ */
+.mc-container {
+  display: flex;
+  flex: 1;
+  margin-top: 24px;
+  gap: 28px;
+}
+.mc-left { flex: 1; }
+.mc-right { flex: 1; }
+.mc-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mc-flow-step {
+  border-left: 2px solid var(--border-dark);
+  padding: 10px 16px;
+  position: relative;
+}
+.mc-flow-step.active { border-left-color: var(--gold); }
+.mc-flow-step h5 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.mc-flow-step p {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+.mc-evidence {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+.mc-evidence h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  color: var(--navy);
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+.mc-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+.mc-stat:last-child { border-bottom: none; }
+.mc-stat-label {
+  font-size: 11px;
+  color: var(--muted);
+}
+.mc-stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.mc-stat-value.gold { color: var(--gold); }
+.mc-stat-value.red { color: var(--red-accent); }
+
+/* ============================================
+   P8 — SECURITY
+   ============================================ */
+.sec-container {
+  display: flex;
+  flex: 1;
+  margin-top: 28px;
+  gap: 32px;
+}
+.sec-diagram {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.sec-box {
+  border: 1px solid var(--border-dark);
+  padding: 14px 28px;
+  text-align: center;
+  background: var(--white);
+  min-width: 280px;
+}
+.sec-box.dark {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--gold);
+}
+.sec-box.gold {
+  border-color: var(--gold);
+  border-width: 2px;
+}
+.sec-box .label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.sec-box.dark .label { color: var(--gold); }
+.sec-box .sub {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.sec-box.dark .sub { color: rgba(255,255,255,0.5); }
+.sec-arrow {
+  font-size: 18px;
+  color: var(--border-dark);
+}
+.sec-features {
+  flex: 0.8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+}
+.sec-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.sec-icon {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  color: var(--gold);
+  font-weight: 600;
+}
+.sec-text h5 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.sec-text p {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+/* ============================================
+   P9 — RAG
+   ============================================ */
+.rag-container {
+  display: flex;
+  flex: 1;
+  margin-top: 24px;
+  gap: 28px;
+}
+.rag-pipeline {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+}
+.rag-step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.rag-step-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  color: var(--gold);
+  font-weight: 600;
+  width: 32px;
+}
+.rag-step-content {
+  border: 1px solid var(--border);
+  padding: 12px 18px;
+  background: var(--white);
+  flex: 1;
+}
+.rag-step-content h5 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.rag-step-content p {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.rag-pillars {
+  flex: 0.9;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+}
+.rag-pillar {
+  border-left: 3px solid var(--gold);
+  padding: 12px 16px;
+  background: var(--white);
+}
+.rag-pillar h5 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.rag-pillar p {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+/* ============================================
+   P10/P11 — DATA TABLES
+   ============================================ */
+.data-container {
+  flex: 1;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.data-table thead {
+  background: var(--navy);
+}
+.data-table thead th {
+  color: var(--gold-light);
+  font-weight: 500;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+.data-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+}
+.data-table tbody tr:nth-child(even) {
+  background: var(--cream);
+}
+.data-table tbody td {
+  padding: 9px 14px;
+  color: var(--text);
+}
+.data-table tbody td.num {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  text-align: right;
+}
+.data-table tbody td.highlight {
+  color: var(--gold);
+  font-weight: 600;
+}
+.data-callout {
+  background: var(--navy);
+  color: var(--white);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.data-callout .icon {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  color: var(--gold);
+  font-weight: 600;
+}
+.data-callout p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.8);
+}
+.data-callout strong {
+  color: var(--gold);
+}
+
+/* ============================================
+   P12 — OBSERVABILITY
+   ============================================ */
+.obs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  flex: 1;
+  margin-top: 32px;
+}
+.obs-card {
+  border: 1px solid var(--border);
+  background: var(--white);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+}
+.obs-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.obs-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--navy);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+.obs-card h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  color: var(--navy);
+  font-weight: 600;
+}
+.obs-card .method {
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.obs-card p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+}
+.obs-card .use-case {
+  font-size: 11px;
+  color: var(--navy);
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-weight: 500;
+}
+
+/* ============================================
+   P13 — DIFFERENTIATION
+   ============================================ */
+.diff-container {
+  flex: 1;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.diff-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.diff-col {
+  padding: 24px;
+}
+.diff-col.industry {
+  background: var(--cream);
+  border: 1px solid var(--border);
+}
+.diff-col.finsight {
+  background: var(--navy);
+  color: var(--white);
+}
+.diff-col h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+.diff-col.industry h4 { color: var(--muted); }
+.diff-col.finsight h4 { color: var(--gold); }
+.diff-col ul {
+  list-style: none;
+}
+.diff-col li {
+  font-size: 12px;
+  line-height: 1.8;
+  padding-left: 18px;
+  position: relative;
+}
+.diff-col.industry li { color: var(--muted); }
+.diff-col.finsight li { color: rgba(255,255,255,0.8); }
+.diff-col.industry li::before {
+  content: '×';
+  position: absolute;
+  left: 0;
+  color: var(--light-muted);
+}
+.diff-col.finsight li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+}
+.diff-footer {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+.diff-tag {
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  border: 1px solid var(--gold);
+  padding: 6px 16px;
+}
+
+/* ============================================
+   P14 — ROADMAP
+   ============================================ */
+.roadmap-container {
+  flex: 1;
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.roadmap-phase {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+.roadmap-phase:last-child { border-bottom: none; }
+.roadmap-date {
+  flex: 0 0 140px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  color: var(--gold);
+  font-weight: 600;
+}
+.roadmap-date .sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 400;
+  display: block;
+  margin-top: 2px;
+}
+.roadmap-content { flex: 1; }
+.roadmap-content h5 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.roadmap-content p {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.roadmap-status {
+  flex: 0 0 80px;
+  text-align: right;
+}
+.roadmap-status span {
+  font-size: 10px;
+  padding: 3px 10px;
+  letter-spacing: 1px;
+}
+.roadmap-status .done {
+  background: var(--navy);
+  color: var(--gold);
+}
+.roadmap-status .next {
+  border: 1px solid var(--gold);
+  color: var(--gold);
+}
+.roadmap-status .future {
+  color: var(--light-muted);
+}
+
+/* ============================================
+   P15 — CLOSING
+   ============================================ */
+.closing {
+  background: var(--navy);
+  color: var(--white);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.closing-content {
+  max-width: 700px;
+}
+.closing-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.closing-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.3;
+  margin-bottom: 24px;
+}
+.closing-line {
+  width: 60px;
+  height: 1px;
+  background: var(--gold);
+  margin: 0 auto 28px;
+}
+.closing-info {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  line-height: 2;
+  letter-spacing: 1px;
+}
+.closing-info strong {
+  color: var(--gold-light);
+  font-weight: 500;
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.nav-hint {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 1px;
+  z-index: 999;
+}
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+<!-- ========== P1: COVER ========== -->
+<section class="slide cover active" data-slide="1">
+  <div class="cover-frame">
+    <div class="cover-eyebrow">GOAI 2026 · Agent Infra</div>
+    <div class="cover-title">FinSight</div>
+    <div class="cover-subtitle">基于元认知监测与知识检索纠错的<br>多Agent金融风控协同系统</div>
+    <div class="cover-line"></div>
+    <div class="cover-meta">
+      AgentTeams 框架 · FinMetaBench 研究工程化<br>
+      金融风控与理赔自动化 · 2026
+    </div>
+  </div>
+</section>
+
+<!-- ========== P2: PROBLEM ========== -->
+<section class="slide" data-slide="2">
+  <div class="content">
+    <div class="slide-eyebrow">01 / 问题定位</div>
+    <h2 class="slide-title">金融AI的信任危机</h2>
+    <div class="gold-rule"></div>
+    <div class="problem-grid">
+      <div class="problem-left">
+        <p class="problem-quote">"模型能识别对错，<br>却无法自行纠错。"</p>
+        <p class="problem-desc">
+          在 FinMetaBench（500题×6模型）上，LLM 的元认知监测与控制能力存在系统性解离：监测质量尚可（AUROC 0.83–0.93），但纠错率仅聚类于 38–41%。模型"自信地给出错误答案"——91.7%的错误携带高置信度信号，而这一信号未能有效引导纠错。
+        </p>
+      </div>
+      <div class="problem-right">
+        <h4>WAIC 2026 行业调研</h4>
+        <ul class="problem-list">
+          <li>8家主流金融AI厂商均依赖外部规则约束实现合规</li>
+          <li>无一利用模型内生元认知信号进行风控</li>
+          <li>多Agent系统缺乏"自我认知"层</li>
+          <li>Agent不知道自己不知道——无监测、无纠错触发</li>
+        </ul>
+      </div>
+    </div>
+    <div class="policy-bar">
+      <div class="policy-item">
+        <div class="policy-tag">国家政策方向 · 2026.07</div>
+        <div class="policy-name">央行等九部门《关于加强科技金融领域数据开发利用的通知》</div>
+        <div class="policy-quote-text">引导金融机构"打造特色的科技型企业<strong>风控投研模型</strong>"，聚焦"<strong>智能风控</strong>"环节</div>
+      </div>
+      <div class="policy-item">
+        <div class="policy-tag">监管要求 · 2026.06</div>
+        <div class="policy-name">金融监管总局 金发〔2026〕8号《银行业保险业人工智能安全开发应用指导意见》</div>
+        <div class="policy-quote-text">要求"<strong>持续监测模型行为</strong>"，"推进<strong>知识工程</strong>建设"，防范"工具滥用、运行失控"</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">FinSight · GOAI 2026</div>
+  <div class="slide-num">02</div>
+</section>
+
+<!-- ========== P3: SOLUTION ========== -->
+<section class="slide" data-slide="3">
+  <div class="content">
+    <div class="slide-eyebrow">02 / 解决方案</div>
+    <h2 class="slide-title">FinSight 系统概述</h2>
+    <div class="gold-rule"></div>
+    <p class="solution-hero">
+      将 FinMetaBench 的元认知研究发现工程化为 <em>meta-calibrate</em> Skill，嵌入 AgentTeams 多Agent协同框架，实现端到端金融风控闭环。
+    </p>
+    <div class="solution-grid">
+      <div class="sol-card">
+        <div class="sol-card-num">5</div>
+        <div class="sol-card-label">Agents</div>
+        <div class="sol-card-desc">1 Manager + 4 Worker，Manager-Worker架构，Matrix协议通信</div>
+      </div>
+      <div class="sol-card">
+        <div class="sol-card-num">6</div>
+        <div class="sol-card-label">Skills</div>
+        <div class="sol-card-desc">可复用能力抽象，核心差异化在meta-calibrate</div>
+      </div>
+      <div class="sol-card">
+        <div class="sol-card-num">8</div>
+        <div class="sol-card-label">闭环环节</div>
+        <div class="sol-card-desc">任务输入→拆解→传递→调用→验证→沉淀→审批→经验</div>
+      </div>
+      <div class="sol-card">
+        <div class="sol-card-num">64</div>
+        <div class="sol-card-label">知识库</div>
+        <div class="sol-card-desc">家上市公司财报，PolarDB pgvector语义检索</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">FinSight · GOAI 2026</div>
+  <div class="slide-num">03</div>
+</section>
+
+<!-- ========== P4: ARCHITECTURE ========== -->
+<section class="slide" data-slide="4">
+  <div class="content">
+    <div class="slide-eyebrow">03 / 架构设计</div>
+    <h2 class="slide-title">AgentTeams 架构映射</h2>
+    <div class="gold-rule"></div>
+    <div class="arch-container">
+      <div class="arch-left">
+        <div class="arch-manager">
+          <div class="role">投研总监 · Manager</div>
+          <div class="desc">任务拆解 · 协调 · 汇总 · 触发校准</div>
+        </div>
+        <div class="arch-connector"></div>
+        <div class="arch-workers">
+          <div class="arch-worker">
+            <div class="role">财报分析师</div>
+            <div class="skills">fin-analysis · kb-query</div>
+            <div class="desc">财务健康度分析</div>
+          </div>
+          <div class="arch-worker">
+            <div class="role">风控哨兵</div>
+            <div class="skills">risk-scan · kb-query</div>
+            <div class="desc">风险因子扫描</div>
+          </div>
+          <div class="arch-worker">
+            <div class="role">交叉校验官</div>
+            <div class="skills">cross-validate</div>
+            <div class="desc">多源一致性校验</div>
+          </div>
+          <div class="arch-worker">
+            <div class="role">策略规划师</div>
+            <div class="skills">strategy-gen · meta-calibrate</div>
+            <div class="desc">BUY/HOLD/AVOID建议</div>
+          </div>
+        </div>
+      </div>
+      <div class="arch-right">
+        <div class="arch-feature">
+          <h5>Matrix 协议通信</h5>
+          <p>端到端加密，全对话留痕，@mension传递上下文</p>
+        </div>
+        <div class="arch-feature">
+          <h5>Higress 网关</h5>
+          <p>统一托管API Key，Worker零凭证暴露</p>
+        </div>
+        <div class="arch-feature">
+          <h5>MinIO 共享存储</h5>
+          <p>文件类产出存入MinIO，Matrix仅传递摘要+链接</p>
+        </div>
+        <div class="arch-feature">
+          <h5>声明式 YAML CRD</h5>
+          <p>Team/Worker/Skill/Human 全部声明式定义</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">FinSight · GOAI 2026</div>
+  <div class="slide-num">04</div>
+</section>
+
+<!-- ========== P5: 8-STEP LOOP ========== -->
+<section class="slide" data-slide="5">
+  <div class="content">
+    <div class="slide-eyebrow">04 / 闭环流程</div>
+    <h2 class="slide-title">多Agent协同八环节闭环</h2>
+    <div class="gold-rule"></div>
+    <div class="loop-container">
+      <div class="loop-steps">
+        <div class="loop-step">
+          <div class="loop-step-num">1</div>
+          <h5>任务输入</h5>
+          <p>用户在 Element Web 选择目标公司，Manager Matrix房间接收请求</p>
+        </div>
+        <div class="loop-step">
+          <div class="loop-step-num">2</div>
+          <h5>任务拆解</h5>
+          <p>Manager拆为4子任务，T1/T2并行，T3/T4串行等待</p>
+        </div>
+        <div class="loop-step">
+          <div class="loop-step-num">3</div>
+          <h5>上下文传递</h5>
+          <p>Matrix房间发布报告摘要，文件存入MinIO</p>
+        </div>
+        <div class="loop-step">
+          <div class="loop-step-num">4</div>
+          <h5>工具调用</h5>
+          <p>各Worker调用Skill，LLM经Higress网关代理</p>
+        </div>
+        <div class="loop-step">
+          <div class="loop-step-num">5</div>
+          <h5>结果验证</h5>
+          <p>Inspector执行cross-validate，标记矛盾点</p>
+        </div>
+        <div class="loop-step">
+          <div class="loop-step-num">6</div>
+          <h5>证据沉淀</h5>
+          <p>全对话留痕，生成结构化执行证据包</p>
+        </div>
+        <div class="loop-step">
+          <div class="loop-step-num">7</div>
+          <h5>审批与回滚</h5>
+          <p>BUY/AVOID需人工Matrix房间确认，HOLD自动输出</p>
+        </div>
+        <div class="loop-step">
+          <div class="loop-step-num">8</div>
+          <h5>经验沉淀</h5>
+          <p>校准偏差写入知识库，参数自动更新，案例归档</p>
+        </div>
+      </div>
+      <div class="loop-side">
+        <h4>关键设计</h4>
+        <p><strong style="color:var(--gold)">T1/T2并行</strong><br>财报分析与风险扫描同时执行，提升效率</p>
+        <p><strong style="color:var(--gold)">T3串行等待</strong><br>交叉校验需T1+T2完成后启动，确保数据完整</p>
+        <p><strong style="color:var(--gold)">人工审批门</strong><br>高风险建议（BUY/AVOID）必须人工确认</p>
+        <p><strong style="color:var(--gold)">校准反馈环</strong><br>每次meta-calibrate结果写入知识库，持续优化</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">FinSight · GOAI 2026</div>
+  <div class="slide-num">05</div>
+</section>
+
+<!-- ========== P6: SKILLS ========== -->
+<section class="slide" data-slide="6">
+  <div class="content">
+    <div class="slide-eyebrow">05 / Skill工程体系</div>
+    <h2 class="slide-title">六个核心可复用Skill</h2>
+    <div class="gold-rule"></div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-name">fin-analysis</div>
+        <div class="skill-purpose">从知识库提取财报数据，计算关键财务指标，生成健康度分析</div>
+        <div class="skill-io">in: company_code, period<br>out: indicators, health_score</div>
+        <div class="skill-tag">Analyst Worker</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">risk-scan</div>
+        <div class="skill-purpose">识别财报风险因子，按严重程度分级，生成风险评估</div>
+        <div class="skill-io">in: financial_data<br>out: risk_level, risk_factors</div>
+        <div class="skill-tag">Sentinel Worker</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">cross-validate</div>
+        <div class="skill-purpose">多Agent输出一致性校验，标记矛盾点，生成验证报告</div>
+        <div class="skill-io">in: agent_outputs<br>out: consistency_score, conflicts</div>
+        <div class="skill-tag">Inspector Worker</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">strategy-gen</div>
+        <div class="skill-purpose">综合前序输出与校准数据，生成BUY/HOLD/AVOID建议</div>
+        <div class="skill-io">in: analysis, risk, validation<br>out: recommendation, confidence</div>
+        <div class="skill-tag">Strategist Worker</div>
+      </div>
+      <div class="skill-card featured">
+        <div class="skill-name">meta-calibrate</div>
+        <div class="skill-purpose">利用监测信号评估可靠性，低置信触发L2+知识检索纠错</div>
+        <div class="skill-io">in: raw_confidence, task_type<br>out: risk_badge, correction_triggered</div>
+        <div class="skill-tag">★ 核心差异化</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">kb-query</div>
+        <div class="skill-purpose">知识库RAG检索，返回top-k相关片段带来源标注</div>
+        <div class="skill-io">in: query, company_code<br>out: results, context</div>
+        <div class="skill-tag">All Workers</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">FinSight · GOAI 2026</div>
+  <div class="slide-num">06</div>
+</section>
+
+<!-- ========== P7: META-CALIBRATE ========== -->
+<section class="slide" data-slide="7">
+  <div class="content">
+    <div class="slide-eyebrow">06 / 核心差异化</div>
+    <h2 class="slide-title">meta-calibrate 监测与纠错触发</h2>
+    <div class="gold-rule"></div>
+    <div class="mc-container">
+      <div class="mc-left">
+        <div class="mc-flow">
+          <div class="mc-flow-step active">
+            <h5>LLM输出 → 监测评估</h5>
+            <p>利用已有监测信号（AUROC 0.83–0.93）评估输出可靠性</p>
+          </div>
+          <div class="mc-flow-step active">
+            <h5>阈值判断 → 风险徽章</h5>
+            <p>GREEN ≥ 0.75 通过 · YELLOW ≥ 0.50 预警 · RED < 0.50 触发纠错</p>
+          </div>
+          <div class="mc-flow-step active">
+            <h5>触发 L2+ 知识检索</h5>
+            <p>kb-query 检索 ~80字+ 概念级知识，非简单重答</p>
+          </div>
+          <div class="mc-flow-step active">
+            <h5>Worker 基于知识重检</h5>
+            <p>注入检索结果到Worker context，由原Worker执行纠错</p>
+          </div>
+        </div>
+      </div>
+      <div class="mc-right">
+        <div class="mc-evidence">
+          <h4>设计依据（论文实证）</h4>
+          <div class="mc-stat">
+            <span class="mc-stat-label">监测 AUROC</span>
+            <span class="mc-stat-value gold">0.83–0.93</span>
+          </div>
+          <div class="mc-stat">
+            <span class="mc-stat-label">无条件纠错率</span>
+            <span class="mc-stat-value red">38–41%</span>
+          </div>
+          <div class="mc-stat">
+            <span class="mc-stat-label">多采样失效（系统性错误）</span>
+            <span class="mc-stat-value red">98.3%</span>
+          </div>
+          <div class="mc-stat">
+            <span class="mc-stat-label">结构化自审（反而降低纠错）</span>
+            <span class="mc-stat-value red">40.5%→35.2%</span>
+          </div>
+          <div class="mc-stat">
+            <span class="mc-stat-label">L2 相变点纠错率</span>
+            <span class="mc-stat-value gold">47%→73%</span>
+          </div>
+          <div class="mc-stat">
+            <span class="mc-stat-label">L4 理论上限</span>
+            <span class="mc-stat-value gold">96.4–100%</span>
+          </div>
+          <div class="mc-stat">
+            <span class="mc-stat-label">REVERSED（5/6模型）</span>
+            <span class="mc-stat-value">高置信更易纠正</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">FinSight · GOAI 2026</div>
+  <div class="slide-num">07</div>
+</section>
+
+<!-- ========== P8: SECURITY ========== -->
+<section class="slide" data-slide="8">
+  <div class="content">
+    <div class="slide-eyebrow">07 / 安全模型</div>
+    <h2 class="slide-title">凭证隔离与审计机制</h2>
+    <div class="gold-rule"></div>
+    <div class="sec-container">
+      <div class="sec-diagram">
+        <div class="sec-box dark">
+          <div class="label">用户</div>
+          <div class="sub">Element Web · Matrix协议</div>
+        </div>
+        <div class="sec-arrow">↓</div>
+        <div class="sec-box gold">
+          <div class="label">Higress AI Gateway</div>
+          <div class="sub">凭证托管 · API Key代理 · 权限控制</div>
+        </div>
+        <div class="sec-arrow">↓</div>
+        <div class="sec-box">
+          <div class="label">Manager Agent</div>
+          <div class="sub">编排协调 · 不直接调用LLM</div>
+        </div>
+        <div class="sec-arrow">↓</div>
+        <div class="sec-box">
+          <div class="label">Worker Agents × 4</div>
+          <div class="sub">consumer token only · 零真实凭证</div>
+        </div>
+        <div class="sec-arrow">↓</div>
+        <div class="sec-box">
+          <div class="label">MinIO + PolarDB</div>
+          <div class="sub">共享文件 · 知识库RAG</div>
+        </div>
+      </div>
+      <div class="sec-features">
+        <div class="sec-item">
+          <div class="sec-icon">i</div>
+          <div class="sec-text">
+            <h5>Worker零凭证</h5>
+            <p>Worker仅持consumer token，真实API Key由网关托管</p>
+          </div>
+        </div>
+        <div class="sec-item">
+          <div class="sec-icon">ii</div>
+          <div class="sec-text">
+            <h5>全对话加密留痕</h5>
+            <p>Matrix端到端加密，每条消息含Agent ID+时间戳+调用链</p>
+          </div>
+        </div>
+        <div class="sec-item">
+          <div class="sec-icon">iii</div>
+          <div class="sec-text">
+            <h5>人工审批门</h5>
+            <p>BUY/AVOID建议需人工在Matrix房间确认，HOLD可自动输出</p>
+          </div>
+        </div>
+        <div class="sec-item">
+          <div class="sec-icon">iv</div>
+          <div class="sec-text">
+            <h5>审计可追溯</h5>
+            <p>每个结论可追溯到源数据和Agent推理链</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">FinSight · GOAI 2026</div>
+  <div class="slide-num">08</div>
+</section>
+
+<!-- ========== P9: RAG ========== -->
+<section class="slide" data-slide="9">
+  <div class="content">
+    <div class="slide-eyebrow">08 / RAG与上下文增强</div>
+    <h2 class="slide-title">知识检索与状态管理</h2>
+    <div class="gold-rule"></div>
+    <div class="rag-container">
+      <div class="rag-pipeline">
+        <div class="rag-step">
+          <div class="rag-step-num">1</div>
+          <div class="rag-step-content">
+            <h5>原始财报数据（64家公司）</h5>
+            <p>港交所公开财报，结构化入库</p>
+          </div>
+        </div>
+        <div class="rag-step">
+          <div class="rag-step-num">2</div>
+          <div class="rag-step-content">
+            <h5>向量化 · PolarDB pgvector</h5>
+            <p>PostgreSQL向量扩展，语义索引</p>
+          </div>
+        </div>
+        <div class="rag-step">
+          <div class="rag-step-num">3</div>
+          <div class="rag-step-content">
+            <h5>kb-query Skill 语义检索</h5>
+            <p>返回 top-k 相关片段，带来源标注</p>
+          </div>
+        </div>
+        <div class="rag-step">
+          <div class="rag-step-num">4</div>
+          <div class="rag-step-content">
+            <h5>注入 Worker Context</h5>
+            <p>检索结果注入LLM上下文，生成分析+来源</p>
+          </div>
+        </div>
+      </div>
+      <div class="rag-pillars">
+        <div class="rag-pillar">
+          <h5>知识库 RAG ✓</h5>
+          <p>64家公司财报 → pgvector → kb-query语义检索</p>
+        </div>
+        <div class="rag-pillar">
+          <h5>Agent记忆 ✓</h5>
+          <p>SOUL.md人格定义 + 校准参数历史写入MinIO</p>
+        </div>
+        <div class="rag-pillar">
+          <h5>共享状态 ✓</h5>
+          <p>Matrix房间传递对话，MinIO传递文件，Manager维护全局状态</p>
+        </div>
+        <div class="rag-pillar">
+          <h5>轨迹可观测 ✓</h5>
+          <p>Trace（消息序列）+ Log（Skill日志）+ Metrics（心跳监控）</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">FinSight · GOAI 2026</div>
+  <div class="slide-num">09</div>
+</section>
+
+<!-- ========== P10: DATA — M-C DISSOCIATION ========== -->
+<section class="slide" data-slide="10">
+  <div class="content">
+    <div class="slide-eyebrow">09 / 核心实验数据 (一)</div>
+    <h2 class="slide-title">M-C解离与系统性错误</h2>
+    <div class="gold-rule"></div>
+    <div class="data-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>模型</th>
+            <th>N</th>
+            <th>准确率</th>
+            <th>纠错率</th>
+            <th>监测AUROC</th>
+            <th>ECE</th>
+            <th>高置信错误占比</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>GLM-5.2</td><td class="num">500</td><td class="num">75.8%</td>
+            <td class="num highlight">40.5%</td><td class="num">0.893</td>
+            <td class="num">0.124</td><td class="num">91.7%</td>
+          </tr>
+          <tr>
+            <td>DeepSeek-V3</td><td class="num">500</td><td class="num">74.4%</td>
+            <td class="num highlight">38.8%</td><td class="num">0.890</td>
+            <td class="num">0.183</td><td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Qwen-Plus</td><td class="num">500</td><td class="num">66.8%</td>
+            <td class="num highlight">39.5%</td><td class="num">0.863</td>
+            <td class="num">0.269</td><td class="num">—</td>
+          </tr>
+          <tr>
+            <td>MiMo-v2.5</td><td class="num">500</td><td class="num">70.6%</td>
+            <td class="num highlight">38.5%</td><td class="num">0.852</td>
+            <td class="num">0.202</td><td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Step-3.5-Flash</td><td class="num">200</td><td class="num">56.0%</td>
+            <td class="num">25.0%</td><td class="num">0.834</td>
+            <td class="num">0.281</td><td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Mistral-7B</td><td class="num">200</td><td class="num">5.5%</td>
+            <td class="num">2.2%</td><td class="num">0.529</td>
+            <td class="num">0.645</td><td class="num">—</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="data-callout">
+        <div class="icon">!</div>
+        <p>
+          <strong>核心发现：</strong>4个中文模型纠错率聚类于38–41%，但监测AUROC达0.83–0.93——监测能力够用，bottleneck在知识生成。
+          <strong>98.3%</strong>的错误为系统性知识缺口（5次采样全错），多采样投票无效。
+          <strong>REVERSED：</strong>5/6模型中高置信错误反而更易纠正。
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">FinSight · GOAI 2026</div>
+  <div class="slide-num">10</div>
+</section>
+
+<!-- ========== P11: DATA — L2 THRESHOLD ========== -->
+<section class="slide" data-slide="11">
+  <div class="content">
+    <div class="slide-eyebrow">10 / 核心实验数据 (二)</div>
+    <h2 class="slide-title">L2阈值相变与Task-Type策略</h2>
+    <div class="gold-rule"></div>
+    <div class="data-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>反馈级别</th>
+            <th>给模型什么</th>
+            <th>GLM-5.2 纠错率</th>
+            <th>Qwen-Plus 纠错率</th>
+            <th>跨越</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>L0</td><td>"你答错了" + 反思</td><td class="num">47%</td><td class="num">32.1%</td><td>基线</td></tr>
+          <tr><td>L1</td><td>+ 主题提示（30字）</td><td class="num">52%</td><td class="num">45.7%</td><td class="num">+5 / +13.6pp</td></tr>
+          <tr style="background:var(--cream);">
+            <td class="highlight">L2</td>
+            <td>+ 关键概念（80字）</td>
+            <td class="num highlight">73%</td>
+            <td class="num highlight">60.7%</td>
+            <td class="num highlight">+21 / +15pp ← 相变</td>
+          </tr>
+          <tr><td>L3</td><td>+ 详细解释（200字）</td><td class="num">87%</td><td class="num">79.3%</td><td class="num">+14 / +18.6pp</td></tr>
+          <tr><td>L4</td><td>+ 完整正确答案</td><td class="num">100%</td><td class="num">96.4%</td><td class="num">+13 / +17.1pp</td></tr>
+        </tbody>
+      </table>
+      <div class="data-callout">
+        <div class="icon">!</div>
+        <p>
+          <strong>L1→L2 是相变点：</strong>概念级信息（~80字）才能跨越纠错阈值。meta-calibrate 据此设计：低置信触发 kb-query 检索 L2+ 粒度知识。
+          <br><strong>Task-Type Reversal：</strong>CFLUE选择题6模型全部过度自信（+11.8~67.5pp），FinBench分析题2模型全部不自信（-7.8~-48.2pp）——事实性任务calibrate down+触发检索，分析性任务calibrate up+不触发。
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">FinSight · GOAI 2026</div>
+  <div class="slide-num">11</div>
+</section>
+
+<!-- ========== P12: OBSERVABILITY ========== -->
+<section class="slide" data-slide="12">
+  <div class="content">
+    <div class="slide-eyebrow">11 / 可观测与经验沉淀</div>
+    <h2 class="slide-title">全链路可观测体系</h2>
+    <div class="gold-rule"></div>
+    <div class="obs-grid">
+      <div class="obs-card">
+        <div class="obs-card-header">
+          <div class="obs-icon">T</div>
+          <h4>Trace</h4>
+        </div>
+        <div class="method">Matrix消息序列</div>
+        <p>每条消息含Agent ID、时间戳、Skill调用链。追溯分析推理链，定位错误环节。遵循OpenTelemetry GenAI语义规范。</p>
+        <div class="use-case">推理链追溯 · 错误定位</div>
+      </div>
+      <div class="obs-card">
+        <div class="obs-card-header">
+          <div class="obs-icon">L</div>
+          <h4>Log</h4>
+        </div>
+        <div class="method">Skill调用日志</div>
+        <p>记录每次Skill调用的输入、输出、耗时、状态。Skill质量评估，失败排查，性能监控。</p>
+        <div class="use-case">质量评估 · 失败排查</div>
+      </div>
+      <div class="obs-card">
+        <div class="obs-card-header">
+          <div class="obs-icon">M</div>
+          <h4>Metrics</h4>
+        </div>
+        <div class="method">Manager心跳 + 校准偏差</div>
+        <p>Worker状态、任务进度、校准偏差统计。实时监控与告警，参数调优依据。校准参数自动更新。</p>
+        <div class="use-case">实时监控 · 参数调优</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">FinSight · GOAI 2026</div>
+  <div class="slide-num">12</div>
+</section>
+
+<!-- ========== P13: DIFFERENTIATION ========== -->
+<section class="slide" data-slide="13">
+  <div class="content">
+    <div class="slide-eyebrow">12 / 差异化与可复制性</div>
+    <h2 class="slide-title">行业对比与场景迁移</h2>
+    <div class="gold-rule"></div>
+    <div class="diff-container">
+      <div class="diff-comparison">
+        <div class="diff-col industry">
+          <h4>现有方案（WAIC 8家厂商）</h4>
+          <ul>
+            <li>依赖外部规则约束实现合规</li>
+            <li>无模型内生元认知监测</li>
+            <li>无基于监测信号的纠错触发</li>
+            <li>Agent缺乏"自我认知"层</li>
+            <li>风控规则需人工维护更新</li>
+          </ul>
+        </div>
+        <div class="diff-col finsight">
+          <h4>FinSight</h4>
+          <ul>
+            <li>利用模型内生监测信号（AUROC 0.83+）</li>
+            <li>低置信触发L2+知识检索纠错</li>
+            <li>不依赖外部规则，模型无关</li>
+            <li>meta-calibrate可插入任意Agent系统</li>
+            <li>校准参数自动更新，持续优化</li>
+          </ul>
+        </div>
+      </div>
+      <div class="diff-footer">
+        <div class="diff-tag">信贷风控</div>
+        <div class="diff-tag">保险理赔</div>
+        <div class="diff-tag">审计核查</div>
+        <div class="diff-tag">合规检查</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">FinSight · GOAI 2026</div>
+  <div class="slide-num">13</div>
+</section>
+
+<!-- ========== P14: ROADMAP ========== -->
+<section class="slide" data-slide="14">
+  <div class="content">
+    <div class="slide-eyebrow">13 / 工程落地</div>
+    <h2 class="slide-title">落地路线图</h2>
+    <div class="gold-rule"></div>
+    <div class="roadmap-container">
+      <div class="roadmap-phase">
+        <div class="roadmap-date">已完成<span class="sub">2026.07</span></div>
+        <div class="roadmap-content">
+          <h5>研究验证 + 知识库 + Demo</h5>
+          <p>6模型FinMetaBench验证 · 64家公司知识库 · 4套评测任务 · 交易终端Demo · 论文初稿v1</p>
+        </div>
+        <div class="roadmap-status"><span class="done">DONE</span></div>
+      </div>
+      <div class="roadmap-phase">
+        <div class="roadmap-date">初赛<span class="sub">截止 08.16</span></div>
+        <div class="roadmap-content">
+          <h5>方案PPT + 提交材料</h5>
+          <p>500字简介 + 15页方案PPT + Agent Identity清单 + Skill定义</p>
+        </div>
+        <div class="roadmap-status"><span class="next">NOW</span></div>
+      </div>
+      <div class="roadmap-phase">
+        <div class="roadmap-date">复赛<span class="sub">08.25 – 09.03</span></div>
+        <div class="roadmap-content">
+          <h5>AgentTeams部署 + 可运行Demo</h5>
+          <p>HiClaw环境部署 · 6个Skill实现 · 完整闭环演示 · 代码仓库</p>
+        </div>
+        <div class="roadmap-status"><span class="future">PLAN</span></div>
+      </div>
+      <div class="roadmap-phase">
+        <div class="roadmap-date">决赛<span class="sub">09月下旬</span></div>
+        <div class="roadmap-content">
+          <h5>完整闭环 + 开源发布</h5>
+          <p>端到端演示 · FinMetaBench评测框架开源 · 6个Skill + AgentTeams配置开源</p>
+        </div>
+        <div class="roadmap-status"><span class="future">GOAL</span></div>
+      </div>
+      <div class="roadmap-phase">
+        <div class="roadmap-date">长期<span class="sub">2026.10</span></div>
+        <div class="roadmap-content">
+          <h5>论文投稿 ARR October → ACL 2027</h5>
+          <p>85天计划补齐实验短板 · 三条贡献链已闭合 · 目标ACL 2027</p>
+        </div>
+        <div class="roadmap-status"><span class="future">FUTURE</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">FinSight · GOAI 2026</div>
+  <div class="slide-num">14</div>
+</section>
+
+<!-- ========== P15: CLOSING ========== -->
+<section class="slide closing" data-slide="15">
+  <div class="closing-content">
+    <div class="closing-eyebrow">FinSight · GOAI 2026</div>
+    <div class="closing-title">
+      利用模型内生监测信号<br>触发知识检索纠错
+    </div>
+    <div class="closing-line"></div>
+    <div class="closing-info">
+      <strong>AgentTeams</strong> 多Agent协同框架<br>
+      <strong>FinMetaBench</strong> 原创研究工程化<br>
+      <strong>6 Skills</strong> 可复用能力抽象<br>
+      <strong>64家</strong> 上市公司知识库<br><br>
+      开源计划：评测框架 + 6 Skills + AgentTeams配置<br>
+      论文投稿：ARR October 2026 → ACL 2027
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="nav-hint">← → 翻页 · F 全屏 · P 打印/PDF</div>
+
+<script>
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+
+function showSlide(n) {
+  if (n < 0 || n >= total) return;
+  slides[currentSlide].classList.remove('active');
+  currentSlide = n;
+  slides[currentSlide].classList.add('active');
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+    e.preventDefault();
+    showSlide(currentSlide + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+    e.preventDefault();
+    showSlide(currentSlide - 1);
+  } else if (e.key === 'Home') {
+    showSlide(0);
+  } else if (e.key === 'End') {
+    showSlide(total - 1);
+  } else if (e.key === 'f' || e.key === 'F') {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  } else if (e.key === 'p' || e.key === 'P') {
+    window.print();
+  }
+});
+
+// Click navigation
+document.addEventListener('click', (e) => {
+  const w = window.innerWidth;
+  if (e.clientX > w / 2) showSlide(currentSlide + 1);
+  else showSlide(currentSlide - 1);
+});
+</script>
+</body>
+</html>
